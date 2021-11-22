@@ -1,0 +1,34 @@
+.pickCity>.van-index-bar>.van-index-bar__sidebar>.van-index-bar__index {
+  margin: 3px 0;
+  text-align: right;
+}
+
+.pickCity>.van-index-bar .van-cell {
+  border: none;
+  padding: 0;
+}
+
+.pickCity>.van-index-bar .van-cell>.van-cell__title {
+  padding: 10px 5px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #c8c7cc;
+  margin-left: 15px;
+  margin-right: 35px;
+}
+
+.hotShow>.movie-list>.van-list>.van-cell {
+  padding: 0;
+}
+
+.cinema>.van-list>.van-cell {
+  padding: 0;
+  line-height: normal;
+}
+.cinema>.van-list>.van-cell .van-cell__value .cinema-car .cinema-car-left .cinema-car-left-name {
+  font-size: 15px;
+}
+
+
+.pendingShow>.header-movie-list>.van-list>.van-cell {
+  padding: 0;
+}
