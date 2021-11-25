@@ -8,7 +8,7 @@ export default {
   classicMovie: [],         // 经典电影
   lat: 23.125178,           // 当前纬度
   lng: 113.280637,          // 当前经度
-  currentCity: JSON.parse(window.localStorage.getItem('city')), // 当前城市
+  currentCity: JSON.parse(window.localStorage.getItem('city')) || '广州', // 当前城市
   cityList: [],             // 城市列表
   movieOnInfoListID: [],    // 获取首页更多热门电影列表 id
   movieOnInfoList: [],      // 获取当前异步刷新热门电影列表
@@ -27,11 +27,13 @@ export default {
     stationId: -1,          // 选中地铁站id
     reqId:1636710166221,    // 请求id 【不修改】
     updateShowDay: true,    // 【不修改】
-    cityId: JSON.parse(window.localStorage.getItem('city')).id // 城市id
+    // cityId: JSON.parse(window.localStorage.getItem('city')).id// 城市id
   },
 
   // 视屏类
   CommendVideo: [],  // 推荐视屏
   searchSuggest: [],  // 搜索建议
-  searchSuggestCinema: []  // 搜索建议影院
+  searchSuggestCinema: [],  // 搜索建议影院
+  // 获取更多电影列表
+  moreSearchMovie: [] // 获取更多电影列表
 }

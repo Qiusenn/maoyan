@@ -64,7 +64,7 @@
       <p>{{ currentMovieData.desc }}</p>
     </div>
 
-    <van-tabs v-if="currentMovieData">
+    <van-tabs>
       <van-tab
         :title="movieInfo.showDate"
         v-for="(movieInfo, index) in currentMovieData.shows"
@@ -106,14 +106,14 @@
                   {{ parseInt(p.baseSellPrice) }}
                 </span>
               </div>
-              <div class="vipPrice">
+              <div class="vipPrice" v-if="p.vipPriceName">
                 <span class="vip-card">{{ p.vipPriceName }}</span>
                 <span class="vip-sel">￥{{ parseInt(p.vipPrice) }}</span>
               </div>
             </div>
 
             <div class="button-block">
-              <div class="button">购票</div>
+              <div class="button" @click="$router.push('/buyTicket')">购票</div>
             </div>
           </div>
         </div>
@@ -132,7 +132,8 @@ export default {
       // 偏移距离
       Distance: 0,
       swiperBox: 65,
-      currentMovieData: [], //当前电影数据
+      currentMovieData: [], // 当前电影数据
+      n: false
     };
   },
   computed: {
@@ -147,7 +148,7 @@ export default {
     scaSwiper(e, index) {
       this.swiperActio = index;
       this.currentMovieData = this.currentCinemaMovieList[index];
-      this.Distance = -(index * this.swiperBox + index * 15) + "px";
+      this.Distance = -(index * this.swiperBox + index * 20) + "px";
     },
     // 根据电影播放总时间计算结束时间
     currentMovieEndTime(value) {
@@ -189,9 +190,8 @@ export default {
       cityId: this.currentCity.id,
     });
     setTimeout(() => {
-      this.currentMovieData = this.currentCinemaMovieList[0];
-      // this.swiperBox = this.$refs.swiperCell[0].offsetWidth;
-    }, 300);
+      this.currentMovieData = this.cinemaDetail.movies[0];
+    }, 3000);
   },
   filters: {
     // 对图片地址进行处理

@@ -22,7 +22,7 @@
       <!-- 视屏页 -->
       <van-tab title="推荐">
         <div class="commend-video" @click="gotoPlayPage(CommendvideoItem)" v-for="CommendvideoItem in CommendVideo" :key="CommendvideoItem.id">
-          <div class="commend-box">
+          <div class="commend-box" v-if="CommendvideoItem.video">
             <video
               :src="CommendvideoItem.video.url"
             ></video>
@@ -36,6 +36,7 @@
             <div class="commend-time">00:46</div>
             <div class="playbtn"></div>
           </div>
+
           <div class="commend-inifo">
             <div class="userinfo">
               <div class="user-header"><img :src="CommendvideoItem.user.avatarurl" alt=""></div>

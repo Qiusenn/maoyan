@@ -14,7 +14,7 @@ export default {
       if (this.currentCity) {
         return
       }
-        this.getCityLanLng({lat:this.lat,lng:this.lng})
+        this.getCityLanLng({lat:this.lat,lng:this.lng})    
   },
   methods: {
     ...mapActions(['getCityLanLng'])

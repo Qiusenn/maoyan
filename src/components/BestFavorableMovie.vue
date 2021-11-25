@@ -2,42 +2,46 @@
   <div class="best-movie">
     <slot name="titleText"></slot>
     <ul>
-          <swiper :options="swiperOption" ref="mySwiper" class="swiper-wrapper">
-            <swiper-slide 
-            v-for="bestMovie in movieCard" 
-            :key="bestMovie.movieId"
+      <swiper :options="swiperOption" ref="mySwiper" class="swiper-wrapper">
+        <swiper-slide v-for="bestMovie in movieCard" :key="bestMovie.movieId">
+          <li @click="tiaozhuan(bestMovie.movieId)">
+            <div
+              class="movie-image"
+              :style="(bestMovie.poster || bestMovie.img) | sliceImg"
             >
-              <li>
-                <div class="movie-image" :style="(bestMovie.poster || bestMovie.img) | sliceImg">
-                  <div class="count" v-if="bestMovie.score">观众评分&nbsp;{{bestMovie.score}}</div>
-                  <div class="count" v-else>{{bestMovie.wish}}人想看</div>
-                </div>
-                <div class="movie-name">{{bestMovie.name || bestMovie.nm}}</div>
-                <div class="data" v-if="bestMovie.comingTitle">{{bestMovie.comingTitle | sliceData}}</div>
-              </li>
-            </swiper-slide>
-            <!-- 导航下标 -->
-            <!-- <div class="swiper-pagination" slot="pagination"></div> -->
-            <!-- 下面两个是分页器 -->
-            <!-- <div class="swiper-button-prev" slot="button-prev"></div> -->
-            <!-- <div class="swiper-button-next" slot="button-next"></div> -->
-          </swiper>
+              <div class="count" v-if="bestMovie.score">
+                观众评分&nbsp;{{ bestMovie.score }}
+              </div>
+              <div class="count" v-else>{{ bestMovie.wish }}人想看</div>
+            </div>
+            <div class="movie-name">{{ bestMovie.name || bestMovie.nm }}</div>
+            <div class="data" v-if="bestMovie.comingTitle">
+              {{ bestMovie.comingTitle | sliceData }}
+            </div>
+          </li>
+        </swiper-slide>
+        <!-- 导航下标 -->
+        <!-- <div class="swiper-pagination" slot="pagination"></div> -->
+        <!-- 下面两个是分页器 -->
+        <!-- <div class="swiper-button-prev" slot="button-prev"></div> -->
+        <!-- <div class="swiper-button-next" slot="button-next"></div> -->
+      </swiper>
     </ul>
   </div>
 </template>
 
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper";
-import 'vue-awesome-swiper/node_modules/swiper/dist/css/swiper.css'
+import "vue-awesome-swiper/node_modules/swiper/dist/css/swiper.css";
 export default {
   data() {
     return {
       swiperOption: {
-        loop: false,  // 是否循环轮播
-        autoplay: false,  // 是否可以自动轮播
-        slidesPerView: 3.5,  // 可是区域内可展示多少个块
-        spaceBetween: 0,  // 块之间间隔距离
-        initialSlide:0,  // 默认初始显示块
+        loop: false, // 是否循环轮播
+        autoplay: false, // 是否可以自动轮播
+        slidesPerView: 3.5, // 可是区域内可展示多少个块
+        spaceBetween: 0, // 块之间间隔距离
+        initialSlide: 0, // 默认初始显示块
         freeMode: true,
         // 显示分页
         // pagination: {
@@ -50,7 +54,7 @@ export default {
         //   prevEl: ".swiper-button-prev",
         // },
       },
-	}
+    };
   },
   filters: {
     // 对图片地址进行处理
@@ -61,13 +65,25 @@ export default {
       };
     },
     sliceData(value) {
-      return value.split(" ")[0]
-    }
+      return value.split(" ")[0];
+    },
   },
-  props: ['movieCard'],
+  props: ["movieCard"],
   computed: {
     swiper() {
       return this.$refs.mySwiper.swiper;
+    },
+  },
+  methods: {
+    tiaozhuan: function (id) {
+      console.log(id);
+      // this.$router.push(`/dianying?id=${id}`)
+      this.$router.push({
+        name: "dianying",
+        params: {
+          id: id,
+        },
+      });
     },
   },
   components: { swiper, swiperSlide },
@@ -98,7 +114,7 @@ export default {
         height: 115px;
         background-size: cover;
         .count {
-          background-image: linear-gradient(-180deg,rgba(77,77,77,0),#000);
+          background-image: linear-gradient(-180deg, rgba(77, 77, 77, 0), #000);
           width: 90%;
           display: inline-block;
           // width: 100%;

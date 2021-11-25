@@ -51,3 +51,5 @@ export const reqCommendVideo = (offsetNumber) => ajax(`https://m.maoyan.com/asga
 export const reqSearchSuggest = (searchOption) => ajax(`https://apis.netstart.cn/maoyan/search/suggest`,searchOption)
 // 获取搜索影院  keyword=che&ci=20
 export const reqSearchSuggestCinema = (searchCinema) => ajax(`https://apis.netstart.cn/maoyan/search/cinemas`,searchCinema)
+// 获取更多电影列表  keyword=乘风& ci=20& offset=0
+export const reqMoreSearchMovie = (searchCinema) => ajax(`https://apis.netstart.cn/maoyan/search/movies`,searchCinema)

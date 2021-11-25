@@ -8,7 +8,7 @@
     >
     
       <van-cell v-for="(item, index) in movieOnInfoList" :key="index">
-        <div class="movie-content">
+        <div class="movie-content"  @click="tiaozhuan(item.id)">
           <div class="avatar" :style="item.img | sliceImg"></div>
           <div class="default-img-bg">
             <div class="avatar-content">
@@ -22,6 +22,7 @@
             <div 
               v-if="item.showStateButton"
               class="ticket"
+              @click="gotoBuyTicket()"
               :style="{
                 backgroundColor: item.showStateButton.color,
                 boxShadow: item.showStateButton.shadowColor,
@@ -82,6 +83,20 @@ export default {
           this.finished = true;
         }
       }, 1000);
+    },
+    gotoBuyTicket () {
+      this.$router.push('/buyTicket?')
+    },
+
+    tiaozhuan: function (id) {
+      console.log(id);
+      // this.$router.push(`/dianying?id=${id}`)
+      this.$router.push({
+        name: "dianying",
+        params: {
+          id: id,
+        },
+      });
     },
   },
 };

@@ -1,7 +1,9 @@
 <template>
   <div class="header-nav">
     <div class="nav-left" @click="$router.push('/pickCity')">
-    <h6 v-if="currentCity">{{currentCity.city || currentCity.nm || currentCity}}</h6>
+    <h6 v-if="currentCity">
+      {{currentCity.city || currentCity.nm || currentCity}}
+      </h6>
     <span><i class="iconfont icon-youjiantou"></i></span></div>
     <div class="nav-middle">
       <router-link to="/home/hotShowing" replace active-class="action"><h2>热映</h2></router-link>

@@ -60,11 +60,6 @@ export default {
       return this.NearCityCinema.length
     }
   },
-  watch: {
-    isShowLoading (n) {
-      console.log(n);
-    }
-  },
   methods: {
     ...mapActions(["getNearCityCinema", "getNearCityCinemaMore"]),
     // 下滑刷新
@@ -75,18 +70,18 @@ export default {
         // 加载状态结束
         // 当前更新次数+1
         // 数据全部加载完成
-        this.getNearCityCinemaMore({offset: this.offset})
         this.offset++
+        this.getNearCityCinemaMore({offset: this.offset})
+        
         this.loading = false;
         if (!this.NearCityCinema) {
           this.finished = true;
         }
-      }, 2000);
+      }, 1000);
       
     },
     gotoCinemaDetail (cinemaData) {
       // 当前点击电影院id
-      console.log(cinemaData);
       this.$router.push(`/cinemaDetail?
       cinemaId=${cinemaData.cinemaId}
       &cinemaTitle=${cinemaData.title}
@@ -97,9 +92,7 @@ export default {
   mounted () {
     // 绑定全局事件总线 修改当前偏移量
     this.$bus.$on('changeOffset',() => {
-      console.log(123);
       this.offset = 0
-      console.log(this.offset);
     })
   },
   beforeDestroy () {

@@ -98,3 +98,9 @@ body {
 	white-space: nowrap;
 }
 
+
+img, embed, object, audio, video {
+  height: auto;
+  max-width: 100%;
+}
+

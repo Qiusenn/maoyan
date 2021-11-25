@@ -111,7 +111,6 @@ export default {
       window.localStorage.setItem('city',JSON.stringify(city))
       // 设置最近点击城市 多个
       window.localStorage.setItem('lastVisit',JSON.stringify(this.lastVisitCity))
-      console.log(city);
       this.getNearCityCinema({cityId:city.id})
     }
   },

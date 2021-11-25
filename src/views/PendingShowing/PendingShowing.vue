@@ -22,7 +22,9 @@ export default {
   },
   mounted() {
     // 获取待映 最近最受期待
-    this.getBestForwardMovie({city:this.currentCity.id,offset:0});
+    setTimeout(() => {
+      this.getBestForwardMovie({city:JSON.parse(window.localStorage.getItem('city')).id,offset:0});
+    }, 300);
   },
   computed: {
     ...mapState(["bestForwardMovie", "currentCity", "bestForwardMovie"]),

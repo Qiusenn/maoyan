@@ -26,19 +26,26 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <van-cell 
-      v-for="(filterMovie, index) in filterDataMovieList"
-      :key="index">
+      <van-cell
+        v-for="(filterMovie, index) in filterDataMovieList"
+        :key="index"
+      >
         <div class="movie-list">
-          <h1>{{filterMovie.data}}</h1>
-          <div class="movie-content" v-for="val in filterMovie.value" :key="val.id">
+          <h1>{{ filterMovie.data }}</h1>
+          <div
+            class="movie-content"
+            v-for="val in filterMovie.value"
+            :key="val.id"
+          >
             <div class="avatar" :style="val.img | sliceImg"></div>
             <div class="default-img-bg">
               <div class="avatar-content">
-                <h4>{{val.nm}}</h4>
-                <p class="score"><span>{{val.wish}}</span> 人想看</p>
-                <p class="act" v-if="val.star">主演: {{val.star}}</p>
-                <p class="session">{{val.rt}}上映</p>
+                <h4>{{ val.nm }}</h4>
+                <p class="score">
+                  <span>{{ val.wish }}</span> 人想看
+                </p>
+                <p class="act" v-if="val.star">主演: {{ val.star }}</p>
+                <p class="session">{{ val.rt }}上映</p>
               </div>
               <div class="ticket">想看</div>
             </div>
@@ -46,20 +53,19 @@
         </div>
       </van-cell>
     </van-list>
-    </div>
-
+  </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import '../assets/resetui.css'
+import "../assets/resetui.css";
 export default {
   data() {
     return {
       loading: false,
       finished: false,
-      loadCount: 0 // 记录当前下拉更新次数
-    }
+      loadCount: 0, // 记录当前下拉更新次数
+    };
   },
 
   filters: {
@@ -106,15 +112,17 @@ export default {
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
       setTimeout(() => {
         // 当前更新次数+1
-        this.loadCount++
+        this.loadCount++;
         // 对获取所有id进行截取，每次截取10个id
         // let movieIds = this.movieOnInfoListID.movieIds.slice((this.loadCount-1)*10, this.loadCount*10);
-        let movieIds = this.comingListId.movieIds.slice((this.loadCount-1)*10, this.loadCount*10).toString();
+        let movieIds = this.comingListId.movieIds
+          .slice((this.loadCount - 1) * 10, this.loadCount * 10)
+          .toString();
         this.getMoreComingList({
-        ci: this.currentCity.id,
-        limit: 10,
-        movieIds: movieIds,
-      });
+          ci: JSON.parse(window.localStorage.getItem('city')).id,
+          limit: 10,
+          movieIds: movieIds,
+        });
         // 加载状态结束
         this.loading = false;
         // 数据全部加载完成
@@ -126,17 +134,7 @@ export default {
   },
   mounted() {
     this.getComingListId();
-    // 获取10个电影列表
-  //   setTimeout(() => {
-  //     this.getMoreComingList({
-  //       ci: this.currentCity.id,
-  //       limit: 10,
-  //       movieIds: this.movieListIds,
-  //     });
-  //   }, 200);
   },
-
-  
 };
 </script>
 

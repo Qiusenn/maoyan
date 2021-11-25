@@ -3,7 +3,9 @@
     <!-- 头部猫演电影 -->
     <div class="headder-begin">
       <h1>猫眼电影</h1>
-      <span class="list-icon"><i class="iconfont icon-danlieliebiao"></i></span>
+      <span class="list-icon" @click="$router.back()"
+        ><i class="iconfont icon-youjiantou jiangtou"></i
+      ></span>
     </div>
 
     <!-- 搜索框 -->
@@ -23,16 +25,17 @@
       :items="searchSuggest.list"
       :total="searchSuggest.total"
       v-if="value && searchSuggest"
-    ></classicMovieCommon>
-    <div class="search-err" v-else>占时无搜索数据</div>
+      @gotoMoreMovie="gotogotoMoreMovie"
+    >
+    </classicMovieCommon>
+    <!-- <div class="search-err" v-else>占时无搜索数据</div> -->
 
-    <div class="searchCinema" v-if="value && searchSuggest">
+    <div class="searchCinema" v-if="value && searchSuggestCinema.length">
       <div class="cinema-title">影院</div>
       <div
         class="cinema-box"
         v-for="cinemaItem in searchSuggestCinema"
         :key="cinemaItem.id"
-        
         @click="gotoCinameDetail(cinemaItem)"
       >
         <div class="cinema-content-box">
@@ -55,10 +58,14 @@
         </div>
       </div>
     </div>
+
+  <div v-else-if="value && !searchSuggest">123</div>
+
   </div>
 </template>
 
 <script>
+import { debounce } from "lodash";
 import { mapActions, mapState } from "vuex";
 import classicMovieCommon from "../components/classicMovieCommon.vue";
 export default {
@@ -66,6 +73,7 @@ export default {
     return {
       value: "",
       offset: 0, // 获取搜索电影偏移量
+      sessic: JSON.parse(window.localStorage.getItem('searchHistory')) || [] // 本地存储
     };
   },
   methods: {
@@ -76,14 +84,17 @@ export default {
     onCancel() {
       this.$router.back();
     },
-    onInput() {
-      this.getSearchSuggest({ kw: this.value, cityId: this.currentCity.id });
-      this.getSearchSuggestCinema({
-        keyword: this.value,
-        ci: this.currentCity.id,
-      });
-    },
-    gotoCinameDetail (cinemaData) {
+    // 防抖
+    onInput: debounce(function () {
+      {
+        this.getSearchSuggest({ kw: this.value, cityId: JSON.parse(window.localStorage.getItem('city')).id });
+        this.getSearchSuggestCinema({
+          keyword: this.value,
+          ci: JSON.parse(window.localStorage.getItem('city')).id
+        });
+      }
+    },700),
+    gotoCinameDetail(cinemaData) {
       // 当前点击电影院id
       console.log(cinemaData);
       this.$router.push(`/cinemaDetail?
@@ -91,6 +102,22 @@ export default {
       &cinemaTitle=${cinemaData.info.name}
       &cinemaLocation=${cinemaData.info.address}
       `);
+    },
+    // 跳转到更多电影列表
+    gotogotoMoreMovie() {
+      this.$router.push(
+        `/moreSearchMovie?keyword=${this.value}&ci=${JSON.parse(window.localStorage.getItem('city')).id}`
+      );
+
+      // this.sessic = this.sessic.filter( item => {
+      //   return item.keyword !== this.value
+      // }).splice(0,9)
+
+      this.sessic.unshift({
+        keyword: this.value,
+        ci: this.currentCity.id
+      })
+      window.localStorage.setItem('searchHistory',JSON.stringify(this.sessic))
     },
   },
   computed: {
@@ -105,6 +132,7 @@ export default {
 <style lang="less" scoped>
 .searchModul {
   width: 100%;
+  /* 头部红色 */
   .headder-begin {
     width: 100%;
     height: 50px;
@@ -121,9 +149,13 @@ export default {
     }
     .list-icon {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 10px;
+      left: 13px;
       font-size: 20px;
+      transform: rotate(180deg);
+      .jiangtou {
+        font-size: 30px;
+      }
     }
   }
   .searchCinema {

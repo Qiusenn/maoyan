@@ -1,18 +1,24 @@
 <template>
-  <div class="common">
-    <div class="search-info">电影/电视剧/综艺</div>
+  <div class="more-search-movie">
+    <!-- 头部猫演电影 -->
+    <div class="headder-begin">
+      <h1>猫眼电影</h1>
+      <span class="list-icon" @click="$router.back()"
+        ><i class="iconfont icon-youjiantou jiangtou"></i
+      ></span>
+    </div>
     <van-list>
-      <van-cell v-for="item in items" :key="item.id">
+      <van-cell v-for="(item, index) in moreSearchMovie" :key="index">
         <div class="movie-content">
           <div class="avatar">
-            <img :src="item.img | sliceImg" alt="" />
+            <img :src="item.poster" alt="" />
           </div>
           <div class="default-img-bg">
             <div class="avatar-content">
-              <h4>{{ item.nm }}</h4>
-              <p class="score">{{ item.enm }}</p>
-              <p class="act">{{ item.cat }}</p>
-              <p class="session">{{ item.rt }}</p>
+              <h4>{{ item.name }}</h4>
+              <p class="score">{{ item.ename }}</p>
+              <p class="act">{{ item.catogary }}</p>
+              <p class="session">{{ item.release }}</p>
             </div>
             <div class="ticket" v-if="item.wish">
               <span>{{ item.wish }}</span
@@ -23,43 +29,64 @@
         </div>
       </van-cell>
     </van-list>
-    <div class="watchAll" @click="gotoMoreSearchMovie()" v-if="total">查看全部{{ total }}部影视剧</div>
   </div>
 </template>
 
+
+
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
-  props: ["items", "total"],
-  methods: {
-    gotoMoreSearchMovie () {
-      this.$emit('gotoMoreMovie')
-    }
+  data() {
+    return {
+      offset: 0,
+    };
   },
-  filters: {
-    // 对图片地址进行处理
-    sliceImg(value) {
-      // http://p0.meituan.net/w.h/mmdb/e8c6fc39ad774426b8ccfc33b22dc722185055.jpg
-      return value.replace("w.h/", "");
-    },
+  computed: {
+    ...mapState(["moreSearchMovie"]),
+  },
+  methods: {
+    ...mapActions(["getMoreSearchMovie"]),
+  },
+  mounted() {
+    this.getMoreSearchMovie({
+      keyword: this.$route.query.keyword,
+      ci: this.$route.query.ci,
+      offset: this.offset,
+    });
   },
 };
 </script>
 
 <style lang="less" scoped>
-.common {
-  box-sizing: border-box;
-  .search-info {
+.more-search-movie {
+  /* 头部红色 */
+  .headder-begin {
     width: 100%;
-    background-color: #fff;
-    padding-left: 15px;
-    padding-top: 12px;
-    box-sizing: border-box;
-    padding-bottom: 12px;
-    border-top: 1px solid #e6e6e6;
-    border-bottom: 1px solid #e6e6e6;
-    font-size: 15px;
-    color: #999;
+    height: 50px;
+    color: #fff;
+    background: #e54847;
+    border-bottom: 1px solid #e54847;
+    position: relative;
+    h1 {
+      display: block;
+      font-size: 18px;
+      font-weight: 400;
+      text-align: center;
+      line-height: 50px;
+    }
+    .list-icon {
+      position: absolute;
+      top: 10px;
+      left: 13px;
+      font-size: 20px;
+      transform: rotate(180deg);
+      .jiangtou {
+        font-size: 30px;
+      }
+    }
   }
+  box-sizing: border-box;
   .movie-content {
     width: 100%;
     padding: 10px 0;
@@ -129,13 +156,6 @@ export default {
         }
       }
     }
-  }
-  .watchAll {
-    padding: 15px 0;
-    width: 100%;
-    color: #f27068;
-    text-align: center;
-    background-color: white;
   }
 }
 </style>

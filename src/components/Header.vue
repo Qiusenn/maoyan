@@ -26,9 +26,9 @@
         <van-dropdown-item :title="currentClickCity" ref="menu">
           <van-tabs>
             <!-- 商区 -->
-            <van-tab title="商区" >
-              <van-tree-select 
-                @click-item="filtertAreaId($event,activeId)"
+            <van-tab title="商区">
+              <van-tree-select
+                @click-item="filtertAreaId($event, activeId)"
                 @click-nav="filterArea(activeIndex)"
                 :items="currentCantonalList"
                 :active-id.sync="activeId"
@@ -39,7 +39,7 @@
             <!-- 地铁站 -->
             <van-tab title="地铁站">
               <van-tree-select
-                @click-item="filtertStationId($event,activeId)"
+                @click-item="filtertStationId($event, activeId)"
                 @click-nav="filterStation(activeIndex)"
                 :items="currentSubwayList"
                 :active-id.sync="activeId"
@@ -53,7 +53,7 @@
           <div
             class="brandList"
             :class="{ action: brandAction == index }"
-            v-for="(brand, index) in this.MovieListCinemaSubway.brand.subItems"
+            v-for="(brand, index) in MovieListCinemaSubway.brand.subItems"
             :key="brand.id"
             @click="currentBrandAction(index, brand)"
           >
@@ -62,25 +62,37 @@
           </div>
         </van-dropdown-item>
 
-        <van-dropdown-item :title="showServeText" class="feature-model" ref="feature">
+        <van-dropdown-item
+          :title="showServeText"
+          class="feature-model"
+          ref="feature"
+        >
           <div class="f-option">
             <h3>特色功能</h3>
             <div class="feature">
-              <div class="feature-btn" 
-              :class="{actionBtn: hallTypeAction == index}"
-              v-for="(subService, index) in MovieListCinemaSubway.service.subItems"
-              @click="filterHallType(subService,index)"
-              :key="subService.id">{{subService.name}}
+              <div
+                class="feature-btn"
+                :class="{ actionBtn: hallTypeAction == index }"
+                v-for="(subService, index) in MovieListCinemaSubway.service
+                  .subItems"
+                @click="filterHallType(subService, index)"
+                :key="subService.id"
+              >
+                {{ subService.name }}
               </div>
             </div>
 
             <h3>特殊厅</h3>
             <div class="feature">
-              <div class="feature-btn" 
-              :class="{actionBtn: serviceAction == index}"
-              v-for="(hallType, index) in MovieListCinemaSubway.hallType.subItems" 
-              @click="filterServiceId(hallType, index)"
-              :key="hallType.id">{{hallType.name}}
+              <div
+                class="feature-btn"
+                :class="{ actionBtn: serviceAction == index }"
+                v-for="(hallType, index) in MovieListCinemaSubway.hallType
+                  .subItems"
+                @click="filterServiceId(hallType, index)"
+                :key="hallType.id"
+              >
+                {{ hallType.name }}
               </div>
             </div>
           </div>
@@ -99,7 +111,7 @@
 
 <script>
 import HeaderNav from "./HeaderNav";
-import '../../public/static/css/reset.css'
+import "../../public/static/css/reset.css";
 import { mapState, mapActions } from "vuex";
 export default {
   data() {
@@ -109,34 +121,40 @@ export default {
       switch2: false,
       activeId: 1,
       activeIndex: 0,
-      brandAction: 0,   // 当前点击高亮，选取勾勾
+      brandAction: 0, // 当前点击高亮，选取勾勾
       hallTypeAction: 0, // 当前点击特色功能 影厅类型
       serviceAction: 0, // 当前点击影院服务
-      showServePending: '', // 当前替换文本 pending
-      showServeText: '全城', // 替换特色文本 展示信息
+      showServePending: "", // 当前替换文本 pending
+      showServeText: "全城", // 替换特色文本 展示信息
       // 筛选配置
-      currentClickCity: '全城', // 当前点击城市
-      currentClickBrand: '品牌', // 当前点击城市
+      currentClickCity: "全城", // 当前点击城市
+      currentClickBrand: "品牌", // 当前点击城市
       filterCinemaOption: {
-        day: '',        // 日期
-        offset:0,       // 偏移量数字
-        limit:20,       // 获取数据数量·
-        districtId:-1,  // 行政区id 区id  【不选】 默认
-        lineId:-1,      // 号线id
-        hallType:-1,    // 影厅类型id
-        brandId:-1,     // 品牌id
-        serviceId:-1,   // 影院服务id
-        areaId:-1,      // 商区详细 石井街道等 id
-        stationId:-1,   // 地铁站id
-        cityId:JSON.parse(window.localStorage.getItem('city')).id,      // 城市id
-      } 
+        day: "", // 日期
+        offset: 0, // 偏移量数字
+        limit: 20, // 获取数据数量·
+        districtId: -1, // 行政区id 区id  【不选】 默认
+        lineId: -1, // 号线id
+        hallType: -1, // 影厅类型id
+        brandId: -1, // 品牌id
+        serviceId: -1, // 影院服务id
+        areaId: -1, // 商区详细 石井街道等 id
+        stationId: -1, // 地铁站id
+        cityId: window.localStorage.getItem("city") ? JSON.parse(window.localStorage.getItem("city")).id : 20, // 城市id
+      },
     };
   },
   components: {
     HeaderNav,
   },
   computed: {
-    ...mapState(["MovieListCinemaSubway", "currentCity"]),
+    ...mapState([
+      "MovieListCinemaSubway",
+      "currentCity",
+      "currentCity",
+      "lat",
+      "lng",
+    ]),
     // 计算出当前市区列表
     currentCantonalList() {
       let CantonalList = [];
@@ -176,115 +194,125 @@ export default {
       });
       return subWayList;
     },
+
+    currentDateTime() {
+      var currentDate = new Date();
+      var year = currentDate.getFullYear();
+      var month = currentDate.getMonth() + 1;
+      var data = currentDate.getDate();
+      return `${year}-${month}-${data}`;
+    },
   },
   mounted() {
-    setTimeout(() => {
-      this.getMovieListCinemaSubway(this.currentCity.id);
-    }, 300);
     // 当前时间搓
-    var currentDate = new Date()
-    var year = currentDate.getFullYear()
-    var month = currentDate.getMonth() + 1
-    var data = currentDate.getDate()
+    setTimeout(() => {
+      this.getMovieListCinemaSubway(JSON.parse(window.localStorage.getItem("city")).id);
+    }, 300);
+
+    this.getCityLanLng({ lat: this.lat, lng: this.lng });
+      
     // 配置时间搓请求最新日期数据
-    this.filterCinemaOption.day = `${year}-${month}-${data}`
+    this.filterCinemaOption.day = this.currentDateTime;
   },
 
   methods: {
-    ...mapActions(["getMovieListCinemaSubway", "getNearCityCinema"]),
+    ...mapActions([
+      "getMovieListCinemaSubway",
+      "getNearCityCinema",
+      "getCityLanLng",
+    ]),
     // 品牌电影院点击高亮样式 影院品牌
     currentBrandAction(index, currentbrand) {
       this.brandAction = index;
 
       console.log("brand当前点击品牌电影院数据id等数据", currentbrand);
-      this.currentClickBrand = currentbrand.name
-      this.filterCinemaOption.brandId = currentbrand.id
-      this.offset = 0
-      this.getNearCityCinema(this.filterCinemaOption)
+      this.currentClickBrand = currentbrand.name;
+      this.filterCinemaOption.brandId = currentbrand.id;
+      this.offset = 0;
+      this.getNearCityCinema(this.filterCinemaOption);
       this.$refs.item.toggle();
     },
 
     // 左侧全部点击显示当前城市全部电影院
     filterArea(filterIndex) {
       if (filterIndex == 0) {
-        this.filterCinemaOption.areaId = -1
+        this.filterCinemaOption.areaId = -1;
         this.$refs.menu.toggle();
-        this.currentClickCity = '全城'
-        this.getNearCityCinema(this.filterCinemaOption)
+        this.currentClickCity = "全城";
+        this.getNearCityCinema(this.filterCinemaOption);
       }
     },
 
     // 右侧筛选商区详情
-    filtertAreaId (e,itemsId) {
+    filtertAreaId(e, itemsId) {
       this.$refs.menu.toggle();
       // 设置当前点击城市
-      this.currentClickCity = e.text.slice(0,e.text.indexOf('('))
+      this.currentClickCity = e.text.slice(0, e.text.indexOf("("));
       // 还原当前地铁站id
-      this.filterCinemaOption.stationId = -1
-      this.filterCinemaOption.areaId = itemsId
-      this.offset = 0
+      this.filterCinemaOption.stationId = -1;
+      this.filterCinemaOption.areaId = itemsId;
+      this.offset = 0;
       // 全局事件总线 触发事件 修改兄弟组件header组件偏移量
-      this.$bus.$emit('changeOffset')
-      this.getNearCityCinema(this.filterCinemaOption)
+      this.$bus.$emit("changeOffset");
+      this.getNearCityCinema(this.filterCinemaOption);
     },
 
     // 左侧全部点击显示当前地铁为-1显示全部
-    filterStation (itemId) {
+    filterStation(itemId) {
       if (itemId == 0) {
-        this.filterCinemaOption.stationId = -1
-        this.getNearCityCinema(this.filterCinemaOption)
+        this.filterCinemaOption.stationId = -1;
+        this.getNearCityCinema(this.filterCinemaOption);
       }
     },
 
     // 筛选地铁站id
-    filtertStationId (e,stationId) {
+    filtertStationId(e, stationId) {
       this.$refs.menu.toggle();
       // 还原商区详细 id
-      this.currentClickCity = e.text.slice(0,e.text.indexOf('('))
-      this.filterCinemaOption.areaId = -1
+      this.currentClickCity = e.text.slice(0, e.text.indexOf("("));
+      this.filterCinemaOption.areaId = -1;
       // 配置当前地铁站id
-      this.filterCinemaOption.stationId = stationId
-      this.offset = 0
+      this.filterCinemaOption.stationId = stationId;
+      this.offset = 0;
       // 全局事件总线 触发事件 修改兄弟组件header组件偏移量
-      this.$bus.$emit('changeOffset')
-      this.getNearCityCinema(this.filterCinemaOption)
+      this.$bus.$emit("changeOffset");
+      this.getNearCityCinema(this.filterCinemaOption);
     },
 
     // 筛选影厅类型
-    filterHallType (hallTypeItem, index) {
+    filterHallType(hallTypeItem, index) {
       console.log(hallTypeItem.name);
-      this.showServePending+=hallTypeItem.name
-      this.hallTypeAction = index
-      this.filterCinemaOption.hallType = hallTypeItem.id
+      this.showServePending += hallTypeItem.name;
+      this.hallTypeAction = index;
+      this.filterCinemaOption.hallType = hallTypeItem.id;
     },
 
     // 筛选 影院服务id
-    filterServiceId (serviceItem, index) {
+    filterServiceId(serviceItem, index) {
       console.log(serviceItem.name);
-      this.filterCinemaOption.serviceId = serviceItem.id
-      this.serviceAction = index
-      this.showServePending += serviceItem.name
+      this.filterCinemaOption.serviceId = serviceItem.id;
+      this.serviceAction = index;
+      this.showServePending += serviceItem.name;
     },
 
     // 确认按钮点击获取电影院列表
-    commitFilterAnimate () {
-      this.offset = 0
-      this.showServeText = this.showServePending
-      this.showServePending = ''
-      this.getNearCityCinema(this.filterCinemaOption)
+    commitFilterAnimate() {
+      this.offset = 0;
+      this.showServeText = this.showServePending;
+      this.showServePending = "";
+      this.getNearCityCinema(this.filterCinemaOption);
       this.$refs.feature.toggle();
     },
 
     // 重置
-    resetCinema () {
-      this.filterCinemaOption.serviceId = -1
-      this.filterCinemaOption.hallType = -1
-      this.offset = 0
-      this.getNearCityCinema(this.filterCinemaOption)
-      this.serviceAction = 0
-      this.hallTypeAction = 0
-
-    }
+    resetCinema() {
+      this.filterCinemaOption.serviceId = -1;
+      this.filterCinemaOption.hallType = -1;
+      this.offset = 0;
+      this.getNearCityCinema(this.filterCinemaOption);
+      this.serviceAction = 0;
+      this.hallTypeAction = 0;
+    },
   },
 };
 </script>
@@ -413,7 +441,7 @@ export default {
           // flex-wrap: wrap;
           // align-items: center;
           &::after {
-            content: '';
+            content: "";
             display: block;
             clear: both;
           }
@@ -455,13 +483,13 @@ export default {
           outline: none;
           text-align: center;
           padding: 10px 25px;
-          border: 1px solid  #ccc;
+          border: 1px solid #ccc;
           background: white;
           color: #777;
           border-radius: 10px;
         }
         .confirm {
-          background-color: #F03D37;
+          background-color: #f03d37;
           color: white;
         }
       }

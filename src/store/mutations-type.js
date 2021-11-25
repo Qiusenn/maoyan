@@ -34,3 +34,5 @@ export const RECEIVE_COMMEND_VIDEO = 'receive_commend_video'
 export const RECEIVE_SEARCH_SUGGEST = 'receive_search_suggest'
 // 获取搜索建议影院
 export const RECEIVE_SEARCH_SUGGEST_CINEMA = 'receive_search_suggest_cinema'
+// 获取更多
+export const RECEIVE_SEARCH_MOVIE = 'receive_search_movie'

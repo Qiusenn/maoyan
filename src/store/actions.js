@@ -16,7 +16,8 @@ import {
   RECEIVE_CINEMA_DETAIL,
   RECEIVE_COMMEND_VIDEO,
   RECEIVE_SEARCH_SUGGEST,
-  RECEIVE_SEARCH_SUGGEST_CINEMA
+  RECEIVE_SEARCH_SUGGEST_CINEMA,
+  RECEIVE_SEARCH_MOVIE
 } from './mutations-type.js'
 
 import {
@@ -34,7 +35,8 @@ import {
   reqCinemaDetail,
   reqCommendVideo,
   reqSearchSuggest,
-  reqSearchSuggestCinema
+  reqSearchSuggestCinema,
+  reqMoreSearchMovie
 } from '../api/index.js'
 
 export default {
@@ -182,6 +184,14 @@ export default {
     if (result) {
       let searchSuggestCinema = result
       commit(RECEIVE_SEARCH_SUGGEST_CINEMA,{searchSuggestCinema})
+    }
+  },
+  // 获取搜索建议影院
+  async getMoreSearchMovie ({commit},searchOption) {
+    let result = await reqMoreSearchMovie(searchOption)
+    if (result) {
+      let moreSearchMovie = result
+      commit(RECEIVE_SEARCH_MOVIE,{moreSearchMovie})
     }
   },
 }

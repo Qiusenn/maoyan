@@ -10,10 +10,18 @@ import Video from '../views/Video/Video.vue'
 import PlayPage from '../views/PlayPage.vue'
 import Search from '../views/Search.vue'
 import Home from '../components/Home.vue'
+import MoreSearchMovie from '../views//MoreSearchMovie.vue'
+import BuyTicket from '../views/BuyTicket.vue'
+import Dianying from '../views/Dianying.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: "/dianying/:id",
+    name: 'dianying',
+    component: Dianying,
+  },
   {
     path: '/',
     redirect: '/home'
@@ -21,6 +29,11 @@ const routes = [
   {
     path: '/cinemaDetail',
     component: CinemaDetail,
+    // meta: { showHomePage: true },
+  },
+  {
+    path: '/moreSearchMovie',
+    component: MoreSearchMovie,
     // meta: { showHomePage: true },
   },
   {
@@ -91,14 +104,16 @@ const routes = [
     path: '/search',
     component: Search,
   },
-
-
+  {
+    path: '/buyTicket',
+    component: BuyTicket
+  }
 ]
 
-const router = new VueRouter({
+export default new VueRouter({
   // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
 
-export default router
+
